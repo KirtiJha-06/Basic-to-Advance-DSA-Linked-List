@@ -1,0 +1,26 @@
+TC : O(n)
+SC : O(1)
+
+class Solution {
+  public:
+    // Function to check if the linked list has a loop.
+    bool detectLoop(Node* head) {
+        // Initialize two pointers: slow and fast
+        Node* slow = head;
+        Node* fast = head;
+        
+        // Traverse the list with slow and fast pointers
+        while (slow && fast && fast->next) {
+            slow = slow->next;            // Move slow pointer one step
+            fast = fast->next->next;      // Move fast pointer two steps
+            
+            // If slow and fast meet, a loop exists
+            if (slow == fast) {
+                return true;
+            }
+        }
+        
+        // If fast pointer reaches the end, no loop exists
+        return false;
+    }
+};
