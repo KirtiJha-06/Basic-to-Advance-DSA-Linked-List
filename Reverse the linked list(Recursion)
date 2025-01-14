@@ -1,0 +1,22 @@
+TC: O(N)
+SC: O(N)
+class Solution {
+public:
+    // Recursive function to reverse the list
+    ListNode* reverseList(ListNode* head) {
+        // Base case: if head is NULL or only one node, return head
+        if (head == NULL || head->next == NULL) {
+            return head;
+        }
+        
+        // Recursive case: reverse the rest of the list
+        ListNode* newhead = reverseList(head->next);  // Recursively reverse the sublist
+        
+        // Now reverse the current head
+        ListNode* front = head->next;
+        front->next = head;  // Point the next node back to the current head
+        head->next = NULL;   // The current head becomes the new tail
+        
+        return newhead;  // Return the new head after full reversal
+    }
+};
