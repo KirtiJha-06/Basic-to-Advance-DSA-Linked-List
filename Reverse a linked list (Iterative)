@@ -1,0 +1,23 @@
+TC: O(n)
+SC: O(1)
+
+class Solution {
+  public:
+    // Function to reverse a linked list.
+    Node* reverseList(struct Node* head) {
+        Node* curr = head;  // Step 1: Start from the head
+        Node* prev = nullptr;  // Step 1: Set prev to nullptr
+        Node* next;  // Step 1: Initialize next pointer
+
+        // Step 2: Traverse the list and reverse the pointers
+        while (curr != nullptr) {  
+            next = curr->next;  // Step 2a: Save the next node
+            curr->next = prev;  // Step 2b: Reverse the pointer
+            
+            prev = curr;  // Step 2c: Move prev to the current node
+            curr = next;  // Step 2d: Move curr to the next node
+        }
+
+        return prev;  // Step 4: prev will be the new head
+    }
+};
