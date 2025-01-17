@@ -1,0 +1,45 @@
+TC: O(N)
+SC: O(1)
+
+class Solution
+{
+    public:
+    void removeLoop(Node* head)
+    {
+        if (!head || !head->next) return; // Edge case
+        
+        Node *slow = head, *fast = head;
+        
+        // Detect loop using Floyd’s Cycle Detection Algorithm
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            
+            if (slow == fast) { // Loop detected
+                break;
+            }
+        }
+        
+        // If no loop was found
+        if (slow != fast) return;
+        
+        // Move slow to head, keep fast where it met slow
+        slow = head;
+        
+        // If slow and fast meet at head, loop starts at head
+        if (slow == fast) {
+            while (fast->next != slow) fast = fast->next;
+            fast->next = NULL;  // Remove loop
+            return;
+        }
+
+        // Move both one step at a time to find the loop's start point
+        while (slow->next != fast->next) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+        
+        // Unlink the loop
+        fast->next = NULL;
+    }
+};
