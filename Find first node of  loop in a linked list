@@ -1,0 +1,31 @@
+TC: O(N)
+SC: O(1)
+
+class Solution {
+  public:
+    // Function to find the first node in the loop of a linked list.
+    Node* findFirstNode(Node* head) {
+        if (!head || !head->next) return nullptr; // Edge case
+        
+        Node *slow = head, *fast = head;
+        
+        // Step 1: Detect loop using Floyd’s Cycle Detection Algorithm
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            // Step 2: If a cycle is detected
+            if (slow == fast) {
+                slow = head; // Reset slow to head
+                
+                // Step 3: Find the first node of the loop
+                while (slow != fast) {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                return slow; // This is the first node of the loop
+            }
+        }
+        return nullptr; // No cycle found
+    }
+};
