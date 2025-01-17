@@ -1,0 +1,28 @@
+TC : O(N)
+SC : O(1)
+
+class Solution {
+  public:
+    Node *moveToFront(Node *head) {
+        // Edge case: Empty list or single node list
+        if (!head || !head->next) return head;
+
+        Node *seclast = nullptr;
+        Node *last = head;
+        
+        // Traverse to find the second last and last node
+        while (last->next) {
+            seclast = last;
+            last = last->next;
+        }
+
+        // Update the second last node's next to NULL
+        if (seclast) seclast->next = nullptr;
+
+        // Move last node to the front
+        last->next = head;
+        head = last;
+
+        return head;
+    }
+};
