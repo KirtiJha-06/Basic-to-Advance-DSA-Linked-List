@@ -1,0 +1,47 @@
+TC: O(N+M)
+SC: O(1)
+class Solution {
+  public:
+    // Function to reverse a linked list
+    Node* reverse(Node* head) {
+        Node *curr = head, *prev = nullptr, *next;
+        while (curr) {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
+    // Function to count nodes in a linked list
+    int countNode(Node* head) {
+        int len = 0;
+        while (head) {
+            len++;  // Increment the length for each node in the list
+            head = head->next;  // Move to the next node
+        }
+        return len;  // Return the total length of the list
+    }
+
+    // Function to add two numbers represented by linked lists
+    Node* addTwoLists(Node* num1, Node* num2) {
+        if (countNode(num1) < countNode(num2)) return addTwoLists(num2, num1);  // Ensure num1 is the longer list
+        num1 = reverse(num1);  // Reverse both lists to start addition from the least significant digits
+        num2 = reverse(num2);
+        Node* res = num1;  // Store the head of the first list
+        int carry = 0;  // Initialize the carry to 0 for addition
+
+        while (num2 || carry) {  // Continue if there are digits left in num2 or if there is a carry
+            num1->data += (num2 ? num2->data : 0) + carry;  // Add the digits of num1 and num2, along with the carry
+            carry = num1->data / 10;  // Calculate the new carry (value greater than or equal to 10)
+            num1->data %= 10;  // Update the current node's data to the last digit (less than 10)
+            if (!num1->next && carry) num1->next = new Node(0);  // If no next node and carry exists, create a new node
+            num1 = num1->next;  // Move to the next node in the list
+            if (num2) num2 = num2->next;  // Move to the next node in num2 if it exists
+        }
+
+        return reverse(res);  // Reverse the result list and return the result
+    }
+};
+
