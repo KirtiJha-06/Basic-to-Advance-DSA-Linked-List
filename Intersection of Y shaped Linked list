@@ -1,0 +1,20 @@
+TC: O(N+M)
+SC: O(1)
+class Solution {
+  public:
+    Node* intersectPoint(Node* head1, Node* head2) {
+        Node* ptr1 = head1; // Step 1: Initialize two pointers
+        Node* ptr2 = head2; 
+
+        if (ptr1 == NULL || ptr2 == NULL) { 
+            return NULL; // Step 2: If either list is empty, return NULL
+        }
+
+        while (ptr1 != ptr2) { // Step 3: Traverse both lists until they meet
+            ptr1 = ptr1 ? ptr1->next : head2; // Step 4: Move to the next node, or switch lists when reaching the end
+            ptr2 = ptr2 ? ptr2->next : head1;
+        }
+
+        return ptr1; // Step 5: Return the intersection point (or NULL if no intersection)
+    }
+};
