@@ -1,0 +1,44 @@
+TC: O(N)
+SC: O(1)
+
+class Solution {
+  public:
+    Node* rotate(Node* head, int k) {
+        // Step 1: Handle edge cases (empty list, single node, or no rotation needed)
+        if (!head || head->next == nullptr || k == 0) {
+            return head; // Return the list as is if no rotation is needed
+        }
+
+        // Step 2: Calculate the length of the list
+        Node* temp = head; // Pointer to traverse the list
+        int size = 1; // Initialize size to 1 since the list contains at least one node
+        while (temp->next) { // Traverse through the list until the last node
+            temp = temp->next; // Move to the next node
+            size++; // Increment size for each node encountered
+        }
+
+        // Step 3: Optimize k (handle cases where k >= size)
+        k = k % size; // If k is larger than the size, perform modulo operation to avoid redundant rotations
+        if (k == 0) {
+            return head; // If k % size is 0, no rotation is needed, so return the list as is
+        }
+
+        // Step 4: Find the new tail (the k-th node from the end)
+        Node* end = head; // Initialize end to point to head
+        for (int i = 1; i < k; i++) { // Move the end pointer k-1 steps forward
+            end = end->next; // Move to the next node in the list
+        }
+
+        // Step 5: Update the new head (the node after the k-th node from the end)
+        Node* newhead = end->next; // The new head is the node after the k-th node from the end
+
+        // Step 6: Break the list after the k-th node and make it circular temporarily
+        end->next = nullptr; // Set the next pointer of the k-th node to null, breaking the list into two parts
+
+        // Step 7: Connect the old tail (last node) to the old head
+        temp->next = head; // The last node's next pointer now points to the original head, completing the circular rotation
+
+        // Step 8: Return the new head
+        return newhead; // The new head is returned, which is the result of the rotation
+    }
+};
