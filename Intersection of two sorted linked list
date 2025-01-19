@@ -1,0 +1,28 @@
+TC: O(N+M)
+SC: O(1)
+
+class Solution {
+public:
+    Node* findIntersection(Node* head1, Node* head2) {
+        Node* dummy = new Node(0); // Step 1: Create a dummy node to store the result list
+        Node* curr = dummy; // Pointer to track the last node of the result list
+
+        while (head1 && head2) { // Step 2: Traverse both lists until one becomes NULL
+            if (head1->data < head2->data) { 
+                head1 = head1->next; // Step 3: Move head1 if its value is smaller
+            } 
+            else if (head1->data > head2->data) { 
+                head2 = head2->next; // Step 4: Move head2 if its value is smaller
+            } 
+            else { // Step 5: If values are equal, add node to result list
+                curr->next = head1; // Attach the common node
+                curr = curr->next; // Move curr pointer
+                head1 = head1->next; // Move both pointers forward
+                head2 = head2->next;
+            }
+        }
+
+        curr->next = nullptr; // Step 6: Mark the end of the result list
+        return dummy->next; // Step 7: Return the head of the intersection list
+    }
+};
