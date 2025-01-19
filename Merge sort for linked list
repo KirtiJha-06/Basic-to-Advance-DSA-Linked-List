@@ -1,0 +1,48 @@
+TC: O(n*logn)
+SC: O(logn)
+
+class Solution {
+  public:
+    // Function to split the linked list into two halves.
+    Node* split(Node* head) {
+        Node* fast = head;
+        Node* slow = head;
+        
+        while(fast != nullptr && fast->next != nullptr) {
+            fast = fast->next->next;  // Move `fast` by two steps
+            if(fast != nullptr) {
+                slow = slow->next;  // Move `slow` by one step
+            }
+        }
+        
+        Node* temp = slow->next;  // `slow` is now at the middle of the list
+        slow->next = nullptr;     // Split the list into two halves
+        return temp;              // Return the second half of the list
+    }
+    
+    // Function to merge two sorted linked lists.
+    Node* merge(Node* first , Node* second) {
+        if(first == nullptr) return second;  // If `first` is empty, return `second`
+        if(second == nullptr) return first;  // If `second` is empty, return `first`
+        
+        if(first->data < second->data) {  // If `first` data is smaller
+            first->next = merge(first->next, second);  // Recursively merge the remaining part of `first` with `second`
+            return first;
+        } else {  // If `second` data is smaller or equal
+            second->next = merge(first, second->next);  // Recursively merge `first` with the remaining part of `second`
+            return second;
+        }
+    }
+    
+    // Function to sort the linked list using Merge Sort.
+    Node* mergeSort(Node* head) {
+        if(head == NULL || head->next == NULL) return head;  // Base case: a list with 0 or 1 node is already sorted
+        
+        Node* second = split(head);  // Split the list into two halves
+        
+        head = mergeSort(head);  // Recursively sort the first half
+        second = mergeSort(second);  // Recursively sort the second half
+        
+        return merge(head, second);  // Merge the two sorted halves
+    }
+};
