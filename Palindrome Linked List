@@ -1,0 +1,65 @@
+TC : O(N)
+SC : O(1)
+/*
+struct Node {
+  int data;
+  struct Node *next;
+  Node(int x) {
+    data = x;
+    next = NULL;
+  }
+};
+*/
+
+class Solution {
+  public:
+    // Function to reverse a linked list
+    Node* reverse(Node* head) {
+        Node* prev = nullptr;  // Initialize previous node as NULL
+        Node* curr = head;     // Start with the head node
+        Node* next;            // Temporary pointer for next node
+        
+        while (curr) {         // Traverse until the end of the list
+            next = curr->next; // Store next node
+            curr->next = prev; // Reverse the link
+            prev = curr;       // Move prev to current node
+            curr = next;       // Move curr to the next node
+        }
+        return prev;           // Return new head (last node becomes head)
+    }
+
+    // Function to check if two linked lists are identical
+    bool isIdentical(Node* n1, Node* n2) {
+        for (; n1 && n2; n1 = n1->next, n2 = n2->next) {
+            if (n1->data != n2->data) // Compare data
+                return false;         // If mismatch, return false
+        }
+        return true;                  // If traversed completely and matched, return true
+    }
+
+    // Function to check whether the linked list is a palindrome
+    bool isPalindrome(Node *head) {
+        if (!head || !head->next)  // If list is empty or has one node, it's a palindrome
+            return true;
+
+        // Finding the middle of the linked list
+        Node* slow = head, * fast = head;
+        while (fast->next && fast->next->next) {
+            slow = slow->next;     // Move slow pointer one step
+            fast = fast->next->next; // Move fast pointer two steps
+        }
+
+        // Reverse the second half of the list
+        Node* head2 = reverse(slow->next);
+        slow->next = nullptr;  // Break the list into two halves
+
+        // Compare the first and reversed second half
+        bool ret = isIdentical(head, head2);
+
+        // Restore the original list (reverse the second half back)
+        head2 = reverse(head2);
+        slow->next = head2;
+
+        return ret;  // Return whether the list is palindrome or not
+    }
+};
